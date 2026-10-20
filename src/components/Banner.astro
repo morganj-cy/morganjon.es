@@ -1,0 +1,68 @@
+---
+import {
+    AlertOctagonIcon,
+    AlertTriangleIcon,
+    CheckCircleIcon,
+} from "astro-feather";
+
+interface Props {
+    type: "success" | "warn" | "error";
+    content: string;
+}
+
+const { type, content } = Astro.props;
+---
+
+<div class="banner" class:list={[type]}>
+    <div class="iconContainer">
+        {type === "success" ? (
+            <CheckCircleIcon />
+        ) : type === "warn" ? (
+            <AlertTriangleIcon size={18} />
+        ) : (
+            type === "error" && <AlertOctagonIcon />
+        )}
+    </div>
+    <span class="content">{content}</span>
+</div>
+
+<style lang="scss">
+    .banner {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        max-width: 24rem;
+        display: flex;
+        width: fit-content;
+        padding: 0.75rem 1.5rem;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        transform: translateX(-50%);
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+
+        &.success {
+            color: $success-ink;
+            background-color: $modal-success;
+        }
+
+        &.warn {
+            color: $warn-ink;
+            background-color: $modal-warn;
+        }
+
+        &.error {
+            color: $error-ink;
+            background-color: $modal-error;
+        }
+    }
+
+    .iconContainer,
+    .iconContainer :global(*) {
+        width: 100%;
+        height: 100%;
+        max-width: 1.5rem;
+        max-height: 1.5rem;
+    }
+</style>

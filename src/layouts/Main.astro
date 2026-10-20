@@ -1,5 +1,7 @@
 ---
 import config from "@/website.config";
+import Banner from "@/src/components/Banner.astro";
+import "@/src/styles/global.scss";
 
 type OGType = "article" | "website";
 type TwitterCardType = "summary" | "summary_large_image";
@@ -13,6 +15,7 @@ interface Props {
     };
     ogType?: OGType;
     twitterCardType?: TwitterCardType;
+    wip: boolean;
 }
 
 const {
@@ -24,6 +27,7 @@ const {
     },
     ogType = "website",
     twitterCardType = "summary",
+    wip = false,
 } = Astro.props;
 ---
 
@@ -87,6 +91,27 @@ const {
         <meta name="twitter:image:alt" content={image.alt} />
     </head>
     <body>
-        <slot />
+        {wip && (
+            <Banner
+                type="warn"
+                content="This section of the website is currently under construction!"
+            />
+        )}
+        <div class="contentContainer">
+            <main class="content">
+                <slot />
+            </main>
+        </div>
     </body>
 </html>
+
+<style lang="scss">
+    .content {
+        width: 80ch;
+        margin-inline: auto;
+    }
+
+    .contentContainer {
+        min-height: 100vh;
+    }
+</style>

@@ -1,9 +1,11 @@
 import { defineConfig } from "astro/config";
 import config from "./website.config";
-
 import sitemap from "@astrojs/sitemap";
-
 import vercel from "@astrojs/vercel";
+import { join } from "path";
+
+const currentPath = import.meta.dirname;
+const stylesPath = join(currentPath, "src/styles");
 
 const { socials } = config;
 const socialPaths = ["/s", "/social"];
@@ -23,5 +25,14 @@ export default defineConfig({
   site: "https://morganjon.es",
   integrations: [sitemap()],
   redirects: generateSocialRedirects(),
-  adapter: vercel()
+  adapter: vercel(),
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "${stylesPath}/vars" as *;`,
+        },
+      },
+    },
+  },
 });
